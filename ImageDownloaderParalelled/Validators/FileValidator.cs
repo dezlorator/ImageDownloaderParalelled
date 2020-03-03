@@ -12,5 +12,10 @@ namespace ImageDownloaderParalelled.Validators
         {
             return File.Exists(pathToFile);
         }
+
+        public bool IsFolderExist(string pathToFolder)
+        {
+            return Directory.Exists(pathToFolder);
+        }
     }
 }

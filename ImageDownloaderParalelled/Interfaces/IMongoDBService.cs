@@ -1,12 +1,13 @@
-﻿using System;
+﻿using ImageDownloaderParalelled.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageDownloaderParalelled.Interfaces
 {
-    public interface IImageDownloaderService
+    public interface IMongoDBService
     {
-        bool DownloadImageAsync(string imageUrl, string destination);
+        Task Create(ImageWithUrl imageWithUrl);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ImageDownloaderParalelled.Convertors;
 using ImageDownloaderParalelled.Interfaces;
+using ImageDownloaderParalelled.Repositories;
 using ImageDownloaderParalelled.Services;
 using ImageDownloaderParalelled.Validators;
 using Ninject.Modules;
@@ -17,9 +18,14 @@ namespace ImageDownloaderParalelled.Modules
             Bind<WebClient>().ToSelf();
             Bind<IStepCounterService>().To<StepCounterService>();
             Bind<IExcelPhotoURLGetterService>().To<ExcelPhotoURLGetterService>();
+            Bind<IImageDownloaderService>().To<ImageDownloaderService>();
             Bind<IController>().To<Controller>();
             Bind<IFileValidator>().To<FileValidator>();
             Bind<IConvertor<string, Uri>>().To<UrlConvertor>();
+            Bind<IPathCreator>().To<PathCreator>();
+            Bind<IResizeImageService>().To<ResizeImageService>();
+            Bind<IMongoDbRepository>().To<MongoDbRepository>();
+            Bind<IMongoDBService>().To<MongoDBService>();
         }
     }
 }

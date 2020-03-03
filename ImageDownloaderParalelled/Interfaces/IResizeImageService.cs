@@ -4,9 +4,8 @@ using System.Text;
 
 namespace ImageDownloaderParalelled.Interfaces
 {
-    public interface IFileValidator
+    public interface IResizeImageService
     {
-        bool IsFileExist(string pathToFile);
-        bool IsFolderExist(string pathToFolder);
+        void ResizeImage(string pathToImage, string pathToSave);
     }
 }

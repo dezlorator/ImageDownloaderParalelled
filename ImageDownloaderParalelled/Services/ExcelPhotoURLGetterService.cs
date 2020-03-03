@@ -35,20 +35,35 @@ namespace ImageDownloaderParalelled.Services
                 return null;
             }
 
+            //using (XLWorkbook workBook = new XLWorkbook(pathToFile))
+            //{
+            //    foreach (IXLWorksheet worksheet in workBook.Worksheets)
+            //    {
+            //        step = stepCounter.GetStep(worksheet.RowsUsed().Count() - currentPosition);
+            //        int stopPosition = currentPosition + step;
+            //        for ( ;currentPosition < stopPosition; currentPosition++)
+            //        {
+            //            urlList.Add(worksheet.RowsUsed().ElementAt(currentPosition).Cell(1).Value.ToString());
+            //        }
+            //    }
+            //}
+
             using (XLWorkbook workBook = new XLWorkbook(pathToFile))
             {
                 foreach (IXLWorksheet worksheet in workBook.Worksheets)
                 {
                     step = stepCounter.GetStep(worksheet.RowsUsed().Count() - currentPosition);
                     int stopPosition = currentPosition + step;
-                    for (;currentPosition < stopPosition; currentPosition++)
+                    for (; currentPosition < stopPosition; currentPosition++)
                     {
                         if (currentPosition >= worksheet.RowsUsed().Count())
                         {
                             return urlList;
                         }
 
-                        urlList.Add(worksheet.RowsUsed().Cells().ElementAt(currentPosition).Value.ToString());
+                        var a = worksheet.RowsUsed();
+
+                        urlList.Add(worksheet.RowsUsed().ElementAt(currentPosition).Cell(1).Value.ToString());
                     }
                 }
             }

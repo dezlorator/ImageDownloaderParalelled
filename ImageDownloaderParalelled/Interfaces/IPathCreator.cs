@@ -6,6 +6,7 @@ namespace ImageDownloaderParalelled.Interfaces
 {
     public interface IPathCreator
     {
-        string CreatePathForImage(string imageName);
+        string CreatePathForImageBeforeResizing(string imageUrl);
+        string CreatePathForImageAfterResizing(string fileName);
     }
 }

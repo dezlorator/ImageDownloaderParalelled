@@ -24,14 +24,14 @@ namespace ImageDownloaderParalelled.Services
         }
         #endregion
 
-        public async Task<bool> DownloadImageAsync(string imageUrl, string destination)
+        public bool DownloadImageAsync(string imageUrl, string destination)
         {
             if(fileValidator.IsFileExist(destination))
             {
                 return false;
             }
 
-            webClient.DownloadFileAsync(urlConvertor.Convert(imageUrl), destination);
+            webClient.DownloadFile(urlConvertor.Convert(imageUrl), destination);
 
             return true;
         }
