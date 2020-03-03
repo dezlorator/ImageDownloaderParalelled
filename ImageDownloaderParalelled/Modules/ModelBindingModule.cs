@@ -3,10 +3,12 @@ using ImageDownloaderParalelled.Interfaces;
 using ImageDownloaderParalelled.Repositories;
 using ImageDownloaderParalelled.Services;
 using ImageDownloaderParalelled.Validators;
+using MongoDB.Driver;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace ImageDownloaderParalelled.Modules
@@ -26,6 +28,7 @@ namespace ImageDownloaderParalelled.Modules
             Bind<IResizeImageService>().To<ResizeImageService>();
             Bind<IMongoDbRepository>().To<MongoDbRepository>();
             Bind<IMongoDBService>().To<MongoDBService>();
+            Bind<HttpClient>().ToSelf();
         }
     }
 }

@@ -51,14 +51,14 @@ namespace ImageDownloaderParalelled.Services
             return pathCreator.CreatePathForImageBeforeResizing(imageUrl);
         }
 
-        public bool DownloadImage(string imageUrl, string destination)
+        public async Task<bool> DownloadImage(string imageUrl, string destination)
         {
             if(String.IsNullOrEmpty(imageUrl))
             {
                 return false;
             }
 
-            imageDownloaderService.DownloadImageAsync(imageUrl, destination);
+            await imageDownloaderService.DownloadImageAsync(imageUrl, destination);
 
             return true;
         }

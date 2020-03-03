@@ -13,20 +13,22 @@ namespace ImageDownloaderParalelled.Repositories
 {
     class MongoDbRepository : IMongoDbRepository
     {
+        private const string dbName = "ImagesDatabase";
+        private const string collectionName = "ImageWithUrl";
+        private const string connectionString = 
+            "mongodb+srv://admin:123@cluster0-tpr1e.azure.mongodb.net/test?retryWrites=true&w=majority";
         IGridFSBucket gridFS;   // файловое хранилище
         IMongoCollection<ImageWithUrl> imagesWithUrl; // коллекция в базе данных
         public MongoDbRepository()
         {
-            string connectionString = "mongodb+srv://admin:123@cluster0-tpr1e.azure.mongodb.net/test?retryWrites=true&w=majority";
-            var connection = new MongoUrlBuilder(connectionString);
             // получаем клиента для взаимодействия с базой данных
             MongoClient client = new MongoClient(connectionString);
             // получаем доступ к самой базе данных
-            IMongoDatabase database = client.GetDatabase("ImagesDatabase");
+            IMongoDatabase database = client.GetDatabase(dbName);
             // получаем доступ к файловому хранилищу
             gridFS = new GridFSBucket(database);
             // обращаемся к коллекции Products
-            imagesWithUrl = database.GetCollection<ImageWithUrl>("ImageWithUrl");
+            imagesWithUrl = database.GetCollection<ImageWithUrl>(collectionName);
         }
         // получаем один документ по id
         public async Task<ImageWithUrl> GetProduct(string id)
@@ -58,11 +60,6 @@ namespace ImageDownloaderParalelled.Repositories
         public async Task StoreImage(string id, Stream imageStream, string imageName)
         {
             ImageWithUrl p = await GetProduct(id);
-            if (p.HasImage())
-            {
-                // если ранее уже была прикреплена картинка, удаляем ее
-                await gridFS.DeleteAsync(new ObjectId(p.ImageId));
-            }
             // сохраняем изображение
             ObjectId imageId = await gridFS.UploadFromStreamAsync(imageName, imageStream);
             // обновляем данные по документу

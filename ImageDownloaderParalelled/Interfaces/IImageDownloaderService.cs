@@ -7,6 +7,6 @@ namespace ImageDownloaderParalelled.Interfaces
 {
     public interface IImageDownloaderService
     {
-        bool DownloadImageAsync(string imageUrl, string destination);
+        Task<bool> DownloadImageAsync(string imageUrl, string destination);
     }
 }

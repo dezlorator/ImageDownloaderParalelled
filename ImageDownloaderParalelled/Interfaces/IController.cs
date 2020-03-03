@@ -9,7 +9,7 @@ namespace ImageDownloaderParalelled.Interfaces
     public interface IController
     {
         IEnumerable<string> GetUrlFromFile(string pathToFile);
-        bool DownloadImage(string imageUrl, string destination);
+        Task<bool> DownloadImage(string imageUrl, string destination);
         string CreatePathToImageBeforeResizing(string imageUrl);
         string CreatePathToImageAfterResizing(string imageName);
         bool ResizePhoto(string pathToImage, string pathToSave);
