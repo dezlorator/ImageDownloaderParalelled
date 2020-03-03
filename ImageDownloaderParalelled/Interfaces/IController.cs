@@ -13,6 +13,6 @@ namespace ImageDownloaderParalelled.Interfaces
         string CreatePathToImageBeforeResizing(string imageUrl);
         string CreatePathToImageAfterResizing(string imageName);
         bool ResizePhoto(string pathToImage, string pathToSave);
-        Task PutIntoDatabase(ImageWithUrl imageWithUrl);
+        Task PutIntoDatabase(ImageWithUrl imageWithUrl, string imagePath);
     }
 }

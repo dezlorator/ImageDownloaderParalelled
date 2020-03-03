@@ -69,7 +69,7 @@ namespace ImageDownloaderParalelled
             Console.WriteLine($"Resizing of the {photoUrl.Split(@"\").Last()} url finished");
 
             Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url started");
-            await controller.PutIntoDatabase(new ImageWithUrl { ImageId = pathToImageAfterResizing, PhotoUrl = photoUrl });
+            await controller.PutIntoDatabase(new ImageWithUrl { PhotoUrl = photoUrl }, pathToImageAfterResizing);
             Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url finished");
         }
     }

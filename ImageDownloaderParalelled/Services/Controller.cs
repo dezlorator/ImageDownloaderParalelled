@@ -57,7 +57,7 @@ namespace ImageDownloaderParalelled.Services
             {
                 return false;
             }
-
+            
             await imageDownloaderService.DownloadImageAsync(imageUrl, destination);
 
             return true;
@@ -90,9 +90,9 @@ namespace ImageDownloaderParalelled.Services
             return true;
         }
 
-        public async Task PutIntoDatabase(ImageWithUrl imageWithUrl)
+        public async Task PutIntoDatabase(ImageWithUrl imageWithUrl, string imagePath)
         {
-            await mongoDBService.Create(imageWithUrl);
+            await mongoDBService.Create(imageWithUrl, imagePath);
         }
     }
 }

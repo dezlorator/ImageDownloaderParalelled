@@ -20,12 +20,12 @@ namespace ImageDownloaderParalelled.Services
             this.mongoDbRepository = mongoDbRepository;
         }
 
-        public async Task Create(ImageWithUrl imageWithUrl)
+        public async Task Create(ImageWithUrl imageWithUrl, string imagePath)
         {
             string id = await mongoDbRepository.Create(imageWithUrl);
-            using (Stream fs = new FileStream(imageWithUrl.ImageId, FileMode.Open))
+            using (Stream fs = new FileStream(imagePath, FileMode.Open))
             {
-                await mongoDbRepository.StoreImage(id, fs, imageWithUrl.PhotoUrl.Split(@"\").Last());
+                await mongoDbRepository.StoreImage(id, fs, imagePath.Split(@"\").Last());
             }
         }
     }

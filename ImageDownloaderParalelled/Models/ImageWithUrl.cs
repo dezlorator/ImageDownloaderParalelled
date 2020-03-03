@@ -13,5 +13,9 @@ namespace ImageDownloaderParalelled.Models
         public string PhotoUrl { get; set; }
         public string ImageId { get; set; } 
 
+        public bool HasImage()
+        {
+            return !String.IsNullOrWhiteSpace(ImageId);
+        }
     }
 }

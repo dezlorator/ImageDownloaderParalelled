@@ -8,6 +8,6 @@ namespace ImageDownloaderParalelled.Interfaces
 {
     public interface IMongoDBService
     {
-        Task Create(ImageWithUrl imageWithUrl);
+        Task Create(ImageWithUrl imageWithUrl, string imagePath);
     }
 }

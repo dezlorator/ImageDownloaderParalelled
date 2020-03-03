@@ -13,12 +13,16 @@ namespace ImageDownloaderParalelled.Repositories
 {
     class MongoDbRepository : IMongoDbRepository
     {
+        #region fields
         private const string dbName = "ImagesDatabase";
-        private const string collectionName = "ImageWithUrl";
+        private const string collectionName = "NewImageWithUrl";
         private const string connectionString = 
             "mongodb+srv://admin:123@cluster0-tpr1e.azure.mongodb.net/test?retryWrites=true&w=majority";
         IGridFSBucket gridFS;   // файловое хранилище
         IMongoCollection<ImageWithUrl> imagesWithUrl; // коллекция в базе данных
+        #endregion
+
+        #region ctor
         public MongoDbRepository()
         {
             // получаем клиента для взаимодействия с базой данных
@@ -30,6 +34,8 @@ namespace ImageDownloaderParalelled.Repositories
             // обращаемся к коллекции Products
             imagesWithUrl = database.GetCollection<ImageWithUrl>(collectionName);
         }
+        #endregion
+
         // получаем один документ по id
         public async Task<ImageWithUrl> GetProduct(string id)
         {
@@ -60,6 +66,11 @@ namespace ImageDownloaderParalelled.Repositories
         public async Task StoreImage(string id, Stream imageStream, string imageName)
         {
             ImageWithUrl p = await GetProduct(id);
+            if (p.HasImage())
+            {
+                // если ранее уже была прикреплена картинка, удаляем ее
+                await gridFS.DeleteAsync(new ObjectId(p.ImageId));
+            }
             // сохраняем изображение
             ObjectId imageId = await gridFS.UploadFromStreamAsync(imageName, imageStream);
             // обновляем данные по документу
