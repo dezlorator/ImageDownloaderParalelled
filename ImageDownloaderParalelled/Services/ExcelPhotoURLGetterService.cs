@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ImageDownloaderParalelled.Services
 {
@@ -41,18 +42,15 @@ namespace ImageDownloaderParalelled.Services
                 {
                     step = stepCounter.GetStep(worksheet.RowsUsed().Count() - currentPosition);
                     int stopPosition = currentPosition + step;
-                    for (; currentPosition < stopPosition; currentPosition++)
+                    Parallel.For(currentPosition, stopPosition, currentPosition =>
                     {
-                        if (currentPosition >= worksheet.RowsUsed().Count())
-                        {
-                            return urlList;
-                        }
-
                         var a = worksheet.RowsUsed();
 
                         urlList.Add(worksheet.RowsUsed().ElementAt(currentPosition).Cell(1).Value.ToString());
-                    }
+                    });
                 }
+
+                currentPosition += step;
             }
 
             return urlList;

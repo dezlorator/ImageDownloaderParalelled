@@ -16,7 +16,7 @@ namespace ImageDownloaderParalelled
     {
         static void Main(string[] args)
         {
-            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\Книга 2.xlsx";
+            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\WithoutCopy.xlsx";
 
             var kernel = new StandardKernel(new ModelBindingModule());
             var controller = kernel.Get<IController>();
@@ -43,7 +43,7 @@ namespace ImageDownloaderParalelled
 
         public static async Task MainAsync(IEnumerable<string> urlContainer, IController controller)
         {
-            int numberOfUrlByStep = 4;
+            int numberOfUrlByStep = 5;
             int numberOfProsessedUrl = 0;
 
             while (numberOfProsessedUrl < urlContainer.Count())
