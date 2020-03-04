@@ -17,7 +17,7 @@ namespace ImageDownloaderParalelled
         private static object obj = new object();
         static void Main(string[] args)
         {
-            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\WithoutCopy.xlsx";
+            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\WithCopy.xlsx";
 
             var kernel = new StandardKernel(new ModelBindingModule());
             var controller = kernel.Get<IController>();
@@ -29,7 +29,7 @@ namespace ImageDownloaderParalelled
             {
                 urlContainer = controller.GetUrlFromFile(pathToFile);
                 Console.WriteLine($"{urlContainer.Count()} was downloaded from the file");
-                if(urlContainer == null)
+                if (urlContainer == null)
                 {
                     break;
                 }
@@ -63,18 +63,15 @@ namespace ImageDownloaderParalelled
             await controller.DownloadImage(photoUrl, pathToImageBeforeResizing);
             Console.WriteLine($"Downloading of the {photoUrl.Split(@"\").Last()} url finished");
 
-            lock(obj)
-            {
-                Console.WriteLine($"Resizing of the {photoUrl.Split(@"\").Last()} url started");
-                var pathToImageAfterResizing = controller.CreatePathToImageAfterResizing(pathToImageBeforeResizing
-                    .Split(@"\").Last());
-                controller.ResizePhoto(pathToImageBeforeResizing, pathToImageAfterResizing);
-                Console.WriteLine($"Resizing of the {photoUrl.Split(@"\").Last()} url finished");
+            Console.WriteLine($"Resizing of the {photoUrl.Split(@"\").Last()} url started");
+            var pathToImageAfterResizing = controller.CreatePathToImageAfterResizing(pathToImageBeforeResizing
+                .Split(@"\").Last());
+            controller.ResizePhoto(pathToImageBeforeResizing, pathToImageAfterResizing);
+            Console.WriteLine($"Resizing of the {photoUrl.Split(@"\").Last()} url finished");
 
-                Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url started");
-                controller.PutIntoDatabase(new ImageWithUrl { PhotoUrl = photoUrl }, pathToImageAfterResizing);
-                Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url finished");
-            }
+            Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url started");
+            await controller.PutIntoDatabase(new ImageWithUrl { PhotoUrl = photoUrl }, pathToImageAfterResizing);
+            Console.WriteLine($"Downloading into database {photoUrl.Split(@"\").Last()} url finished");
         }
     }
 }

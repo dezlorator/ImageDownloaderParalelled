@@ -1,6 +1,7 @@
 ﻿using ImageDownloaderParalelled.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ImageDownloaderParalelled.Services
@@ -31,7 +32,7 @@ namespace ImageDownloaderParalelled.Services
         {
             var splittedName = imageUrl.Split('/');
 
-            var path = CurrentDirectory + @"\" + imagesBeforeResizingFolder + @"\" + CreateFileName(splittedName[splittedName.Length - 1]);
+            var path = CurrentDirectory + @"\" + imagesBeforeResizingFolder + @"\" + CreateFileName(splittedName.Last());
 
             return path;
         }
@@ -40,10 +41,20 @@ namespace ImageDownloaderParalelled.Services
         {
             if (imageName.Split('.').Length == 0 || !fileExtension.Contains(imageName.Split('.')[1]))
             {
-                imageName += ".jpg";
+                imageName += DateTime.Now.Millisecond + ".jpg";
+                return imageName;
+            }
+            var imageNameSplitted = imageName.Split('.');
+            imageNameSplitted[imageNameSplitted.Length - 2] += DateTime.Now.Millisecond;
+
+            string newImageName = "";
+
+            foreach(var component in imageNameSplitted)
+            {
+                newImageName += "." + component;
             }
 
-            return imageName;
+            return newImageName;
         }
 
         public string CreatePathForImageAfterResizing(string fileName)
