@@ -3,6 +3,7 @@ using ImageDownloaderParalelled.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,7 +58,7 @@ namespace ImageDownloaderParalelled.Services
             {
                 return false;
             }
-            
+
             await imageDownloaderService.DownloadImageAsync(imageUrl, destination);
 
             return true;

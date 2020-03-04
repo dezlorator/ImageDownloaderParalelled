@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using ImageDownloaderParalelled.Interfaces;
+using ImageDownloaderParalelled.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ImageDownloaderParalelled.Services
     class ExcelPhotoURLGetterService : IExcelPhotoURLGetterService
     {
         #region fields
-        private List<string> urlList;
+        private List<CustomUrl> urlList;
         private int step;
         private int currentPosition = 0;
         private readonly IStepCounterService stepCounter;
@@ -23,7 +24,7 @@ namespace ImageDownloaderParalelled.Services
         {
             this.stepCounter = stepCounter;
             this.fileValidator = fileValidator;
-            urlList = new List<string>(20);
+            urlList = new List<CustomUrl>(20);
         }
         #endregion
 
@@ -31,7 +32,7 @@ namespace ImageDownloaderParalelled.Services
         {
             urlList.Clear();
 
-            if(!fileValidator.IsFileExist(pathToFile))
+            if (!fileValidator.IsFileExist(pathToFile))
             {
                 return null;
             }
@@ -44,16 +45,31 @@ namespace ImageDownloaderParalelled.Services
                     int stopPosition = currentPosition + step;
                     Parallel.For(currentPosition, stopPosition, currentPosition =>
                     {
-                        var a = worksheet.RowsUsed();
-
-                        urlList.Add(worksheet.RowsUsed().ElementAt(currentPosition).Cell(1).Value.ToString());
+                        urlList.Add( new CustomUrl
+                        { 
+                            UrlString = worksheet.RowsUsed().ElementAt(currentPosition).Cell(1).Value.ToString(),
+                            UrlIndex = currentPosition
+                        });
                     });
+                    if (urlList.Count() != step)
+                    {
+                        var indexesOfUrlsNotProsessedByParallelFor = Enumerable.Range(0, step).
+                                                                     Except(urlList.Select(p => p.UrlIndex));
+                        foreach(int urlInder in indexesOfUrlsNotProsessedByParallelFor)
+                        {
+                            urlList.Add(new CustomUrl
+                            {
+                                UrlString = worksheet.RowsUsed().ElementAt(urlInder).Cell(1).Value.ToString(),
+                                UrlIndex = currentPosition
+                            });
+                        }
+                    }
                 }
 
                 currentPosition += step;
             }
 
-            return urlList;
+            return urlList.Select(p => p.UrlString);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ImageDownloaderParalelled.Services
     class StepCounterService : IStepCounterService
     {
         #region fields 
-        private const int step = 20;
+        private const int step = 10;
         #endregion
 
         public int GetStep(int numberOfElementsInContainer)

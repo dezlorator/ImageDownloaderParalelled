@@ -22,6 +22,7 @@ namespace ImageDownloaderParalelled.Services
 
         public async Task Create(ImageWithUrl imageWithUrl, string imagePath)
         {
+
             string id = await mongoDbRepository.Create(imageWithUrl);
             using (Stream fs = new FileStream(imagePath, FileMode.Open))
             {
