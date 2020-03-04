@@ -16,7 +16,7 @@ namespace ImageDownloaderParalelled
     {
         static void Main(string[] args)
         {
-            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\WithoutCopy.xlsx";
+            string pathToFile = System.IO.Directory.GetCurrentDirectory() + @"\Excel\WithCopy.xlsx";
 
             var kernel = new StandardKernel(new ModelBindingModule());
             var controller = kernel.Get<IController>();
