@@ -10,7 +10,7 @@
     <PackageReference Include="MongoDB.Driver.Core" Version="2.10.2" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.10.2" />
     <PackageReference Include="Ninject" Version="3.3.4" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.7" />
   </ItemGroup>
 
 </Project>
